@@ -7,11 +7,11 @@ vector<bool>isprime(max, true);
 void sieve()				// Time complexity = O(nlog(log(n))) and space complexity = O(n) 
 {
 	isprime[0] = isprime[1] = false;
-	for (int i = 2; i * i <= max; i++)
+	for (int i = 2; i * i < max; i++)
 	{
 		if (isprime[i] == true)
 		{
-			for (int j = i * i; j <= max; j += i)
+			for (int j = i * i; j < max; j += i)
 				isprime[j] = false;
 		}
 	}
