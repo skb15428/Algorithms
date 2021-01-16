@@ -73,6 +73,8 @@ void fib(ll n)
         }
     }
     cout << (1 * I[0][0]) + (1 * I[1][0]) << endl;
+    // for modulus ans
+    // cout << (1 * I[0][0]) + (1 * I[1][0]) % mod << endl;
 }
 int main() // F0 = 0, F1 = 1, F2 = 1, F3 = 2, F4 = 3, F5 = 5, F6 = 8, F7 = 13, F8 = 21
 {
