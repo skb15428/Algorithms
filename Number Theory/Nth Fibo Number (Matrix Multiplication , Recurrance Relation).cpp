@@ -16,6 +16,7 @@
 
 #include <bits/stdc++.h>
 #define ll long long
+#define mod 1000000007
 using namespace std;
 
 vector<vector<ll>> tr(2, vector<ll>(2)), I(2, vector<ll>(2));
@@ -30,6 +31,9 @@ vector<vector<ll>> mul(vector<vector<ll>> I, vector<vector<ll>> tr)
             for (int k = 0; k < 2; k++)
             {
                 res[i][j] += I[i][k] * tr[k][j];
+                // for calculating ans mod 10^9+7
+                // ll x = (I[i][k] * tr[k][j]) % mod;
+                // res[i][j] = (res[i][j] + x) % mod;
             }
         }
     }
