@@ -34,7 +34,8 @@ void mod_fact(ll p)
         fact[i] = (fact[i - 1] * i) % p;
     }
 }
-///////////////////////////////Using DP - where (p>n) /////////////////////////////////
+
+///////////////////////////////Using DP pascal triangle - where (p>n) /////////////////////////////////
 // Time Complexity - O(n*r) & Space Complexity - O(r)
 int nCr_mod_DP(int n, int r, int p)
 {
