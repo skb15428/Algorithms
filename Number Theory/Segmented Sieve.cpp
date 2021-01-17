@@ -31,6 +31,8 @@ void sieve()
 }
 void segm(ll l, ll r)
 {
+    if(l <= 1)
+        l=2;
     vector<bool>sprime(r - l + 1, true);
     for (ll i = 0; prime[i] * (ll)prime[i] <= r; i++)
     {
@@ -47,10 +49,6 @@ void segm(ll l, ll r)
         {
             sprime[base - l] = true;
         }
-    }
-    if (l == 1)
-    {
-        sprime[0] = false;
     }
     //ll mul = 1;
     for (int i = 0; i < sprime.size(); i++)
