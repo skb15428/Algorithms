@@ -41,8 +41,8 @@ bool isPrime_fermat(ll n, ll itr = 5)
 
     for (ll i = 1; i < itr; i++)
     {
-        ll a = 2 + rand() % (n - 3);
-        ll res = binpow(a, n - 1, n);
+        ll a = 2 + rand() % (n - 3);  // Generate a in range : 2 <= a <= n-2
+        ll res = binpow(a, n - 1, n); // a^(n-1) = 1 mod n => Fermat's Theorem
 
         if (res != 1)
             return false;
