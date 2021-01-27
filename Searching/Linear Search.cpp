@@ -24,7 +24,7 @@ ll power(ll base, ll exp, ll md = mod)
     return res;
 }
 
-int search(vector<int> arr, int n, int x)
+int linear_search(vector<int> arr, int n, int x)
 {
     for (int i = 0; i < n; i++)
         if (arr[i] == x)
@@ -48,7 +48,7 @@ int main()
         }
         int x;
         cin >> x;
-        int result = search(arr, n, x);
+        int result = linear_search(arr, n, x);
         (result == -1)
             ? cout << "Element is not present in array"
             : cout << "Element is present at index " << result;
