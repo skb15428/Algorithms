@@ -24,7 +24,7 @@ ll power(ll base, ll exp, ll md = mod)
     return res;
 }
 
-int linear_search(vector<int> arr, int n, int x)
+int linear_search(vector<int> arr, int n, int x)   // Time Complexity - O(n)
 {
     for (int i = 0; i < n; i++)
         if (arr[i] == x)
