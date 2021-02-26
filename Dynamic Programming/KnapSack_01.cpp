@@ -68,6 +68,30 @@ int knapSack_01_DP(vi &val, vi &wt, int W, int n)
     return dp[n][W];
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////DP - T => O(n*W), S => O(W)////////////////////////////////
+int knapSack_01_DP_SO(vi &val, vi &wt, int W, int n)
+{
+    int dp[2][W + 1];
+    for (int i = 0; i < n + 1; i++)
+    {
+        for (int j = 0; j < W + 1; j++)
+        {
+            if (i == 0 || j == 0)
+                dp[i % 2][j] = 0;
+            else
+            {
+                if (wt[i - 1] <= j)
+                    dp[i % 2][j] = max(val[i - 1] + dp[(i - 1) % 2][j - wt[i - 1]], dp[(i - 1) % 2][j]);
+                else
+                    dp[i % 2][j] = dp[(i - 1) % 2][j];
+            }
+        }
+    }
+    return dp[n % 2][W];
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int main()
 {
     FIO;
@@ -92,6 +116,7 @@ int main()
         cin >> W;
         cout << knapSack_01(val, wt, W, n) << endl;
         cout << knapSack_01_DP(val, wt, W, n) << endl;
+        cout << knapSack_01_DP_SO(val, wt, W, n) << endl;
     }
     return 0;
 }
