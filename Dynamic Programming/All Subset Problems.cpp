@@ -72,7 +72,7 @@ bool subsetSum_DP(vi &arr, int n, int sum, vbb &dp) // For min Subset Difference
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////DP - T=>O(n*sum), S=>O(2*sum)////////////////////////////////////
+/////////////////////////////////////DP - T=>O(n*sum), S=>O(sum)////////////////////////////////////
 // Space Optimizeed solution
 // Problem requires only previous row for calculating current value
 bool subsetSum_DP_SO(vi &arr, int n, int sum)
@@ -114,28 +114,28 @@ bool equalSumPartition(vi &arr, int n)
 
 ///////////////////////////////////Count Subsets//////////////////////////////////////////////////////
 // Find number of subsets having given sum
-int countSubset(vi &arr, int n, int sum)
+int countSubset_SO(vi &arr, int n, int sum)
 {
-    int dp[n + 1][sum + 1];
+    int dp[2][sum + 1];
     for (int i = 0; i <= n; i++)
     {
         for (int j = 0; j <= sum; j++)
         {
             if (j == 0)
-                dp[i][j] = 1;
+                dp[i%2][j] = 1;
             else if (i == 0)
-                dp[i][j] = 0;
+                dp[i%2][j] = 0;
             else if (arr[i - 1] <= j)
             {
-                dp[i][j] = dp[i - 1][j - arr[i - 1]] + dp[i - 1][j];
+                dp[i%2][j] = dp[(i - 1)%2][j - arr[i - 1]] + dp[(i - 1)%2][j];
             }
             else
             {
-                dp[i][j] = dp[i - 1][j];
+                dp[i%2][j] = dp[(i - 1)%2][j];
             }
         }
     }
-    return dp[n][sum];
+    return dp[n%2][sum];
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -146,11 +146,11 @@ int countSubset(vi &arr, int n, int sum)
 // Let T be Total sum of array
 // s1+s2=T
 // s2=T-s1
-// Therefore T-s1-s1=min ===> T-2*s1=min 
-int minSubsetDiff(vi &arr,int n)
+// Therefore T-s1-s1=min ===> T-2*s1=min
+int minSubsetDiff(vi &arr, int n)
 {
     int sum = 0;
-    for (int i = 0; i < n;i++)
+    for (int i = 0; i < n; i++)
     {
         sum += arr[i];
     }
@@ -158,9 +158,9 @@ int minSubsetDiff(vi &arr,int n)
 
     subsetSum_DP(arr, n, sum / 2, dp);
 
-    for (int i = sum / 2; i >= 0;i--)
+    for (int i = sum / 2; i >= 0; i--)
     {
-        if(dp[n][i]==true)
+        if (dp[n][i] == true)
             return (sum - (2 * i));
     }
     return sum;
@@ -175,15 +175,15 @@ int minSubsetDiff(vi &arr,int n)
 //    2*s1=diff+T
 
 //    s1=(diff+T)/2;
-int countDiff(vi &arr,int n,int diff)
+int countDiff(vi &arr, int n, int diff)
 {
     int T = 0;
-    for (int i = 0; i < n;i++)
+    for (int i = 0; i < n; i++)
     {
         T += arr[i];
     }
     int s1 = (diff + T) / 2;
-    return countSubset(arr, n, s1);
+    return countSubset_SO(arr, n, s1);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -205,14 +205,14 @@ int main()
         int sum;
         cin >> sum;
         subsetSum(arr, n, sum) == true ? cout << "Subset found\n" : cout << "Subset not Found\n";
-        //subsetSum_DP(arr, n, sum) == true ? cout << "Subset found\n" : cout << "Subset not Found\n";
+        // subsetSum_DP(arr, n, sum) == true ? cout << "Subset found\n" : cout << "Subset not Found\n";
         subsetSum_DP_SO(arr, n, sum) == true ? cout << "Subset found\n" : cout << "Subset not Found\n";
 
         equalSumPartition(arr, n) == true ? cout << "Array can be partitioned into equal sum\n" : cout << "Cannot be partitioned\n";
 
-        cout << "There are " << countSubset(arr, n, sum) << " subsets of sum " << sum << endl;
+        cout << "There are " << countSubset_SO(arr, n, sum) << " subsets of sum " << sum << endl;
 
-        cout << "Min subset Difference is = " << minSubsetDiff(arr, n)<<endl;
+        cout << "Min subset Difference is = " << minSubsetDiff(arr, n) << endl;
 
         cout << "No of combination of subsets with given diff is = " << countDiff(arr, n, sum) << endl;
     }
