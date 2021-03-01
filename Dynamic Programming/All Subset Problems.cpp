@@ -122,20 +122,20 @@ int countSubset_SO(vi &arr, int n, int sum)
         for (int j = 0; j <= sum; j++)
         {
             if (j == 0)
-                dp[i%2][j] = 1;
+                dp[i % 2][j] = 1;
             else if (i == 0)
-                dp[i%2][j] = 0;
+                dp[i % 2][j] = 0;
             else if (arr[i - 1] <= j)
             {
-                dp[i%2][j] = dp[(i - 1)%2][j - arr[i - 1]] + dp[(i - 1)%2][j];
+                dp[i % 2][j] = dp[(i - 1) % 2][j - arr[i - 1]] + dp[(i - 1) % 2][j];
             }
             else
             {
-                dp[i%2][j] = dp[(i - 1)%2][j];
+                dp[i % 2][j] = dp[(i - 1) % 2][j];
             }
         }
     }
-    return dp[n%2][sum];
+    return dp[n % 2][sum];
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
