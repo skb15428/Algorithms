@@ -69,6 +69,26 @@ int longestCommonSubsequence_DP(string s1, int n, string s2, int m)
             }
         }
     }
+    int i = n, j = m;
+    string ans = "";
+    while (i > 0 && j > 0)
+    {
+        if (s1[i - 1] == s2[j - 1])
+        {
+            ans.push_back(s1[i - 1]);
+            i--;
+            j--;
+        }
+        else
+        {
+            if (dp[i - 1][j] > dp[i][j - 1])
+                i--;
+            else
+                j--;
+        }
+    }
+    reverse(ans.begin(), ans.end());
+    cout << "LCS is => " << ans << endl;
     return dp[n][m];
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,11 +113,11 @@ int longestCommonSubsequence_DP_SO(string s1, int n, string s2, int m)
                     dp[bi][j] = 1 + dp[1 - bi][j - 1];
                 else
                     // dp[i%2][j] = max(dp[(i - 1)%2][j], dp[i%2][j - 1]);
-                    dp[bi][j] = max(dp[1-bi][j], dp[bi][j - 1]);
+                    dp[bi][j] = max(dp[1 - bi][j], dp[bi][j - 1]);
             }
         }
     }
-    return dp[n%2][m];
+    return dp[n % 2][m];
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
