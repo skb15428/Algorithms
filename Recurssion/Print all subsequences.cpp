@@ -37,8 +37,8 @@ void printAllSequences2(vector<int> &arr, vector<int> &ans, int x)
     printAllSequences2(arr, ans, x + 1);
 }
 
-// Time Complexity - O(2^n)
-// Space Complexity - O(2^n)
+// Time Complexity - O(2^n * n)
+// Space Complexity - O(n)
 int main()
 {
     vector<int> arr;
