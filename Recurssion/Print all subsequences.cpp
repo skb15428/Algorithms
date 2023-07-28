@@ -48,6 +48,6 @@ int main()
 
     vector<int> ans;
     printAllSequences(arr, ans, 0);
-    printAllSequences2(arr, ans, 0);
+    // printAllSequences2(arr, ans, 0);
     return 0;
 }
