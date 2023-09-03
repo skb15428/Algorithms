@@ -1,160 +1,128 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO ios_base::sync_with_stdio(0), cin.tie(0)
-#define ll long long
-#define mod 1000000007
-#define endl '\n'
-#define PI 3.14159265359
-#define vi vector<int>
-#define vii vector<vector<int>>
-#define vl vector<ll>
-#define vll vector<vector<ll>>
-#define vd vector<double>
-#define vdd vector<vector<double>>
-#define vc vector<char>
-#define vcc vector<vector<char>>
-#define vb vector<bool>
-#define vbb vector<vector<bool>>
-
-#define pre(x, y) fixed << setprecision(y) << x
-#define deb(x) cout << #x << " => " << x << endl;
-
-inline ll power(ll base, ll exp, ll md = mod)
+// Time Complexity - O(n*amount)
+// Space Complexity - O(2*amount)
+int solve_dp_SO(vector<int> coins, int amount, int n)
 {
-    base %= md;
-    ll res = 1;
-    while (exp != 0)
-    {
-        if (exp % 2 == 1)
-            res = (res * base) % md;
-        exp >>= 1;
-        base = (base * base) % md;
-    }
-    return res;
-}
+    vector<vector<int>> dp(2, vector<int>(amount + 1, -1));
 
-//////////////////////////////Coin Change(MINIMUM COIN REQUIRED) - T=>O(n*sum) S=>O(n*sum)///////////
-// Find number of subsets having given sum
-int coinChange(vi &coin, int n, int sum)
-{
-    int dp[n + 1][sum + 1];
     for (int i = 0; i <= n; i++)
     {
-        dp[i][0] = 0;
-    }
-    for (int i = 1; i <= sum; i++)
-    {
-        dp[0][i] = INT_MAX - 1;
-    }
-    for (int i = 1; i <= sum; i++)
-    {
-        if (i % coin[0] == 0)
-        {
-            dp[1][i] = i / coin[0];
-        }
-        else
-        {
-            dp[1][i] = INT_MAX - 1;
-        }
-    }
-    for (int i = 2; i <= n; i++)
-    {
-        for (int j = 1; j <= sum; j++)
-        {
-            if (coin[i - 1] <= j)
-            {
-                dp[i][j] = min(1 + dp[i][j - coin[i - 1]], dp[i - 1][j]);
-            }
-            else
-            {
-                dp[i][j] = dp[i - 1][j];
-            }
-        }
-    }
-    cout << "Coins required are : " << endl;
-    int i = n, j = sum;
-    while(i>0 && j>0)
-    {
-        if(dp[i-1][j]==dp[i][j])
-            i = i - 1;
-        else 
-        {
-            cout << coin[i - 1] << " ";
-            j = j - coin[i - 1];
-        }    
-    }
-    cout << endl;
-    return dp[n][sum];
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////Coin Change(MINIMUM COIN REQUIRED) - T=>O(n*sum) S=>O(sum)//////////////
-// Find number of subsets having given sum
-int coinChange_SO(vi &coin, int n, int sum)
-{
-    int dp[2][sum + 1];
-    // for (int i = 0; i <= n; i++)
-    // {
-    //     dp[i][0] = 0;
-    // }
-    // for (int i = 1; i <= sum; i++)
-    // {
-    //     dp[0][i] = INT_MAX - 1;
-    // }
-    for (int i = 0; i <= sum; i++)
-    {
-        if (i == 0)
-            dp[1][i] = 0;
-        else if (i % coin[0] == 0)
-        {
-            dp[1][i] = i / coin[0];
-        }
-        else
-        {
-            dp[1][i] = INT_MAX - 1;
-        }
-    }
-    for (int i = 2; i <= n; i++)
-    {
-        for (int j = 0; j <= sum; j++)
+        for (int j = 0; j <= amount; j++)
         {
             if (j == 0)
-                dp[i % 2][j] = 0;
-            else if (coin[i - 1] <= j)
             {
-                dp[i % 2][j] = min(1 + dp[i % 2][j - coin[i - 1]], dp[(i - 1) % 2][j]);
+                dp[i % 2][j] = 0;
+            }
+            else if (i == 0)
+            {
+                dp[i % 2][j] = 1e9;
+            }
+            else if (i == 1)
+            {
+                if (j % coins[i - 1] == 0)
+                    dp[i % 2][j] = j / coins[i - 1];
+                else
+                    dp[i % 2][j] = 1e9;
             }
             else
             {
-                dp[i % 2][j] = dp[(i - 1) % 2][j];
+                if (j >= coins[i - 1])
+                {
+                    dp[i % 2][j] = min(1 + dp[i % 2][j - coins[i - 1]], dp[(i - 1) % 2][j]);
+                }
+                else
+                {
+                    dp[i % 2][j] = dp[(i - 1) % 2][j];
+                }
             }
         }
     }
-    return dp[n % 2][sum];
+    return dp[n % 2][amount];
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
-int main()
+// Time Complexity - O(n*amount)
+// Space Complexity - O(n*amount)
+int solve_dp(vector<int> coins, int amount, int n)
 {
-    FIO;
+    vector<vector<int>> dp(n + 1, vector<int>(amount + 1, -1));
 
-    int t = 1;
-    cin >> t;
-    while (t--)
+    for (int i = 0; i <= n; i++)
     {
-        int n;
-        cin >> n;
-        vi coin(n);
-        for (int i = 0; i < n; i++)
+        for (int j = 0; j <= amount; j++)
         {
-            cin >> coin[i];
+            if (j == 0)
+            {
+                dp[i][j] = 0;
+            }
+            else if (i == 0)
+            {
+                dp[i][j] = 1e9;
+            }
+            else if (i == 1)
+            {
+                if (j % coins[i - 1] == 0)
+                    dp[i][j] = j / coins[i - 1];
+                else
+                    dp[i][j] = 1e9;
+            }
+            else
+            {
+                if (j >= coins[i - 1])
+                {
+                    dp[i][j] = min(1 + dp[i][j - coins[i - 1]], dp[i - 1][j]);
+                }
+                else
+                {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
         }
-        int sum;
-        cin >> sum;
-
-        cout <<"Min number coin  required are = "<< coinChange(coin, n, sum) << endl;
-        cout << coinChange_SO(coin, n, sum) << endl;
     }
-    return 0;
+    return dp[n][amount];
+}
+
+// For Recurssion
+// Time Complexity - O(2*n)
+// Space Complexity - O(1) + O(k) -> stack space where k is no of coins taken
+int solve_rec_mem(vector<int> &coins, int amount, int n, vector<vector<int>> &dp)
+{
+    if (amount == 0)
+        return 0;
+    if (n == 0)
+        return 1e9;
+    if (n == 1)
+    {
+        if (amount % coins[n - 1] == 0)
+            return amount / coins[n - 1];
+        else
+            return 1e9;
+    }
+
+    if (dp[n][amount] != -1)
+        return dp[n][amount];
+
+    if (amount >= coins[n - 1])
+    {
+        return dp[n][amount] = min(1 + solve_rec_mem(coins, amount - coins[n - 1], n, dp), solve_rec_mem(coins, amount, n - 1, dp));
+    }
+    else
+    {
+        return dp[n][amount] = solve_rec_mem(coins, amount, n - 1, dp);
+    }
+}
+
+int coinChange(vector<int> &coins, int amount)
+{
+    int n = coins.size();
+
+    // vector<vector<int>>dp(n+1,vector<int>(amount+1,-1));
+    // int ans = solve_rec_mem(coins,amount,n,dp);
+
+    // int ans = solve_dp(coins,amount,n);
+
+    int ans = solve_dp_SO(coins, amount, n);
+
+    return ans >= 1e9 ? -1 : ans;
 }
